@@ -1,0 +1,372 @@
+{
+    "definitions": {
+        "policyDigest": {
+            "type": "object"
+        },
+        "policyDigests": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/policyDigest"
+            }
+        },
+        "policyOr": {
+            "title": "PolicyOR",
+            "description": "Combines two policy entries by an OR",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "or"
+                    ]
+                },
+                "branches": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "policy": {
+                                "$ref": "#/definitions/policy"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "description",
+                            "policy"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "branches"
+            ]
+        },
+        "policySigned": {
+            "title": "PolicySigned",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "signed"
+                    ]
+                }
+            }
+        },
+        "policySecret": {
+            "title": "PolicySecret",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "secret"
+                    ]
+                }
+            }
+        },
+        "policyPcr": {
+            "title": "PolicyPcr",
+            "description": "Perform Authentication against certain PCR Values",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "pcr"
+                    ]
+                },
+                "pcrs": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "hashAlg": {
+                                "type": "string",
+                                "default": "sha256",
+                                "description": "The used hash algorithm of the pcr bank, e.g 'sha1' or 'sha256'"
+                            },
+                            "pcr": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 24,
+                                "description": "Number of the PCR to evaluate against"
+                            },
+                            "digest": {
+                                "type": "string",
+                                "minLength": 40,
+                                "default": "0000000000000000000000000000000000000000000000000000000000000000",
+                                "pattern": "^(0x)?[0-9a-fA-F]+$",
+                                "description": "Value of the PCR to evaluate against, e.g. 20 hex bytes for sha1, 32 for sha256"
+                            }
+                        },
+                        "required": [
+                            "hashAlg",
+                            "pcr",
+                            "digest"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "pcrs"
+            ]
+        },
+        "policyLocality": {
+            "title": "PolicyLocality",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "locality"
+                    ]
+                }
+            }
+        },
+        "policyNV": {
+            "title": "PolicyNV",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "nv"
+                    ]
+                }
+            }
+        },
+        "policyCounterTimer": {
+            "title": "PolicyCounterTimer",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "counterTimer"
+                    ]
+                }
+            }
+        },
+        "policyCommandCode": {
+            "title": "PolicyCommandCode",
+            "description": "TPM Command Code to which this policy applies, e.g. NV_WRITE or NV_READ (without TPM2_CC_ prefix)",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "commandCode"
+                    ]
+                },
+                "code": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "code"
+            ]
+        },
+        "policyPhysicalPresence": {
+            "title": "PolicyPhysicalPresence",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "physicalPresence"
+                    ]
+                }
+            }
+        },
+        "policyCpHash": {
+            "title": "PolicyCpHash",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "cpHash"
+                    ]
+                }
+            }
+        },
+        "policyNameHash": {
+            "title": "PolicyNameHash",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "nameHash"
+                    ]
+                }
+            }
+        },
+        "policyDuplicationSelect": {
+            "title": "PolicyDuplicationSelect",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "duplicationSelect"
+                    ]
+                }
+            }
+        },
+        "policyAuthorize": {
+            "title": "PolicyAuthorize",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "authorize"
+                    ]
+                }
+            }
+        },
+        "policyAuthValue": {
+            "title": "PolicyAuthValue",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "authValue"
+                    ]
+                }
+            }
+        },
+        "policyPassword": {
+            "title": "PolicyPassword",
+            "description": "This policy element requires the auth value of the object to be included in the final HMAC calculation",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "password"
+                    ]
+                }
+            }
+        },
+        "policyNvWritten": {
+            "title": "PolicyNvWritten",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "nvWritten"
+                    ]
+                }
+            }
+        },
+        "policyTemplate": {
+            "title": "PolicyTemplate",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "template"
+                    ]
+                }
+            }
+        },
+        "policyAuthorizeNv": {
+            "title": "PolicyAuthorizeNv",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "authorizeNv"
+                    ]
+                }
+            }
+        },
+        "policyAction": {
+            "title": "PolicyAction",
+            "properties": {
+                "type": {
+                    "enum": [
+                        "action"
+                    ]
+                }
+            }
+        },
+        "policy": {
+            "description": "List of policy elements, each element is AND combined with the other policies in the list",
+            "type": "array",
+            "items": {
+                "required": [
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "policyDigests": {
+                        "$ref": "#/definitions/policyDigests"
+                    }
+                },
+                "anyOf": [
+                    {
+                        "$ref": "#/definitions/policyOr"
+                    },
+                    {
+                        "$ref": "#/definitions/policySigned"
+                    },
+                    {
+                        "$ref": "#/definitions/policySecret"
+                    },
+                    {
+                        "$ref": "#/definitions/policyPcr"
+                    },
+                    {
+                        "$ref": "#/definitions/policyLocality"
+                    },
+                    {
+                        "$ref": "#/definitions/policyNV"
+                    },
+                    {
+                        "$ref": "#/definitions/policyCounterTimer"
+                    },
+                    {
+                        "$ref": "#/definitions/policyCommandCode"
+                    },
+                    {
+                        "$ref": "#/definitions/policyPhysicalPresence"
+                    },
+                    {
+                        "$ref": "#/definitions/policyCpHash"
+                    },
+                    {
+                        "$ref": "#/definitions/policyNameHash"
+                    },
+                    {
+                        "$ref": "#/definitions/policyDuplicationSelect"
+                    },
+                    {
+                        "$ref": "#/definitions/policyAuthorize"
+                    },
+                    {
+                        "$ref": "#/definitions/policyAuthValue"
+                    },
+                    {
+                        "$ref": "#/definitions/policyPassword"
+                    },
+                    {
+                        "$ref": "#/definitions/policyNvWritten"
+                    },
+                    {
+                        "$ref": "#/definitions/policyTemplate"
+                    },
+                    {
+                        "$ref": "#/definitions/policyAuthorizeNv"
+                    },
+                    {
+                        "$ref": "#/definitions/policyAction"
+                    }
+                ]
+            }
+        }
+    },
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://tpm2-software.github.io/tpm2-tss-policy.json",
+    "title": "TPMS_POLICY",
+    "description": "Policy root element",
+    "type": "object",
+    "properties": {
+        "description": {
+            "type": "string",
+            "description": "The human readable description of the policy"
+        },
+        "policyAuthorizations": {
+            "type": "array"
+        },
+        "policyDigests": {
+            "$ref": "#/definitions/policyDigests"
+        },
+        "policy": {
+            "$ref": "#/definitions/policy"
+        }
+    },
+    "required": [
+        "policy"
+    ]
+}
