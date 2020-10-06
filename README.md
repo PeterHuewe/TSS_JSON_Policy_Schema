@@ -1,5 +1,5 @@
-# TSS_JSON_Policy_Schema
-JSON Schemas to match the TCG TSS JSON Policy language (https://trustedcomputinggroup.org/wp-content/uploads/TSS_JSON_Policy_v0p7_r08_pub.pdf)
+# TSS JSON Policy Schema
+JSON Schema to match the TCG TSS JSON Policy language (https://trustedcomputinggroup.org/resource/tcg-tss-json/)
 
 If we have a suitable schema for the json policy language, this enables the following use cases:
 - validation of json policies
